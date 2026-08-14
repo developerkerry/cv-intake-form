@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Professional CV client intake form. Submit your details securely and send them via WhatsApp.">
+<title>CVPro Kenya — CV Intake Form</title>
+<style>
+:root{
+  --bg:#050b14;--panel:#0b1626;--panel2:#101e31;--text:#f6f8fb;--muted:#aab7c8;
+  --gold:#ffd166;--gold2:#ffb703;--green:#25d366;--danger:#ff6b6b;--line:#203047;
+  --shadow:0 24px 70px rgba(0,0,0,.35);--radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 20% 0%,#112541 0,#050b14 40%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.container{width:min(100% - 28px,980px);margin:auto}
+.hero{padding:42px 0 24px}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid #29405e;border-radius:999px;background:#0b1728;color:var(--gold);font-weight:800;font-size:.82rem}
+.hero h1{font-size:clamp(2.1rem,8vw,4.4rem);line-height:.98;margin:18px 0 14px;letter-spacing:-.045em}
+.hero h1 span{color:var(--gold)}
+.hero p{max-width:700px;color:var(--muted);font-size:1.04rem;margin:0}
+.notice{margin:22px 0;padding:14px 16px;border:1px solid #31506f;background:rgba(16,30,49,.75);border-radius:16px;color:#dce7f4}
+.notice strong{color:var(--green)}
+.progress-wrap{position:sticky;top:0;z-index:20;padding:12px 0;background:rgba(5,11,20,.9);backdrop-filter:blur(14px);border-bottom:1px solid #15253a}
+.progress-head{display:flex;justify-content:space-between;color:var(--muted);font-size:.82rem;margin-bottom:7px}
+.progress{height:7px;background:#18283d;border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;width:11%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:99px;transition:.3s}
+.card{background:linear-gradient(145deg,rgba(16,30,49,.98),rgba(8,18,31,.98));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin:22px 0}
+.section{display:none}.section.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.3;transform:translateY(6px)}to{opacity:1;transform:none}}
+.section-title{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}
+.num{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--gold);color:#101820;font-weight:950;flex:none}
+h2{font-size:1.35rem;margin:0 0 3px}.sub{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.field{margin-bottom:14px}.field.full{grid-column:1/-1}
+label{display:block;font-size:.88rem;font-weight:750;margin:0 0 7px;color:#e8eef7}
+.req{color:var(--gold)}
+input,textarea,select{width:100%;border:1px solid #2a3e57;background:#071321;color:var(--text);border-radius:13px;padding:13px 14px;outline:none;transition:.2s}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,209,102,.11)}
+textarea{min-height:110px;resize:vertical}
+small,.hint{color:var(--muted);font-size:.78rem}
+.repeat{border:1px solid #243952;border-radius:18px;padding:16px;margin:14px 0;background:rgba(5,13,23,.48)}
+.repeat-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
+.repeat-head strong{font-size:.95rem}
+.btn{border:0;border-radius:13px;padding:12px 16px;font-weight:850;transition:.2s}
+.btn:active{transform:scale(.98)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111}
+.btn.green{background:var(--green);color:#06110a}
+.btn.ghost{background:#122238;color:#dce7f4;border:1px solid #29405e}
+.btn.danger{background:#301a21;color:#ffb1b1;border:1px solid #61303a}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.actions .right{display:flex;gap:10px;margin-left:auto}
+.file{border:1px dashed #3b5573;padding:16px;border-radius:15px;background:#071321}
+.file input{border:0;padding:0;background:transparent}
+.checkbox{display:flex;gap:10px;align-items:flex-start;margin-top:18px;padding:14px;border:1px solid #29405e;border-radius:14px;background:#071321}
+.checkbox input{width:auto;margin-top:4px;accent-color:var(--gold2)}
+.summary{white-space:pre-wrap;background:#06101c;border:1px solid #29405e;border-radius:16px;padding:16px;color:#dce7f4;max-height:420px;overflow:auto;font-size:.86rem}
+.success{display:none;text-align:center;padding:34px 12px}.success.show{display:block}
+.success-icon{width:74px;height:74px;margin:auto;display:grid;place-items:center;border-radius:50%;background:rgba(37,211,102,.14);border:1px solid rgba(37,211,102,.4);font-size:2rem}
+.footer{text-align:center;color:var(--muted);padding:30px 0 50px;font-size:.84rem}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#14253a;border:1px solid #35506e;color:#fff;padding:12px 16px;border-radius:12px;z-index:50;transition:.25s;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.hero{padding-top:28px}.card{padding:17px}.actions{position:sticky;bottom:0;background:rgba(5,11,20,.94);backdrop-filter:blur(12px);margin:18px -17px -17px;padding:12px 17px;border-top:1px solid #1a2b40}.actions .btn{flex:1}.repeat-head{align-items:flex-start}}
+</style>
+</head>
+<body>
+<header class="hero container">
+  <span class="badge">✦ PROFESSIONAL CV SERVICE</span>
+  <h1>Build a CV that <span>gets you noticed.</span></h1>
+  <p>Tell us about yourself and we'll use your information to prepare a clean, professional CV tailored to your career goals.</p>
+  <div class="notice"><strong>🔒 Your information:</strong> We use the details you submit only to prepare your CV. <b>Never enter passwords, M-Pesa PINs, bank details or your National ID number.</b></div>
+</header>
+
+<div class="progress-wrap">
+  <div class="container">
+    <div class="progress-head"><span id="progressText">Step 1 of 10</span><span id="progressPct">10%</span></div>
+    <div class="progress"><i id="bar"></i></div>
+  </div>
+</div>
+
+<main class="container">
+<form id="cvForm" novalidate>
+<section class="card section active" data-step="1" style="--back-vis:hidden">
+  <div class="section-title"><span class="num">1</span><div><h2>Personal & contact details</h2><div class="sub">How should we contact and identify you?</div></div></div>
+  <div class="grid">
+    <div class="field"><label>Full name <span class="req">*</span></label><input name="fullName" required placeholder="e.g. Brian Otieno"></div>
+    <div class="field"><label>Phone number <span class="req">*</span></label><input name="phone" required placeholder="e.g. 0795 415 864"></div>
+    <div class="field"><label>Professional email <span class="req">*</span></label><input name="email" type="email" required placeholder="e.g. brian@gmail.com"></div>
+    <div class="field"><label>Town / City <span class="req">*</span></label><input name="location" required placeholder="e.g. Nairobi"></div>
+    <div class="field full"><label>LinkedIn profile <small>(optional)</small></label><input name="linkedin" placeholder="https://linkedin.com/in/yourname"></div>
+  </div>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="2">
+  <div class="section-title"><span class="num">2</span><div><h2>Career target</h2><div class="sub">What opportunity are you targeting?</div></div></div>
+  <div class="grid">
+    <div class="field"><label>Target job title <span class="req">*</span></label><input name="targetTitle" required placeholder="e.g. IT Support Technician"></div>
+    <div class="field"><label>Industry / field <span class="req">*</span></label><input name="industry" required placeholder="e.g. Information Technology"></div>
+    <div class="field full"><label>Job advert text or link <small>(optional)</small></label><textarea name="jobAdvert" placeholder="Paste the job description or its link here. This helps us tailor your CV."></textarea></div>
+  </div>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="3">
+  <div class="section-title"><span class="num">3</span><div><h2>Professional summary</h2><div class="sub">Don't worry if you're unsure what to write — simple answers are enough.</div></div></div>
+  <div class="grid">
+    <div class="field"><label>Current occupation / status <span class="req">*</span></label><input name="status" required placeholder="e.g. Final-year student / Sales assistant"></div>
+    <div class="field"><label>Years of experience <span class="req">*</span></label><input name="years" required placeholder="e.g. 0, 1, 3"></div>
+    <div class="field full"><label>Career goal <span class="req">*</span></label><textarea name="careerGoal" required placeholder="e.g. I want to start my career in software development and grow into a full-stack developer."></textarea></div>
+  </div>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="4">
+  <div class="section-title"><span class="num">4</span><div><h2>Education</h2><div class="sub">Add every relevant school, college or university.</div></div></div>
+  <div id="educationList"></div>
+  <button type="button" class="btn ghost" onclick="addEducation()">＋ Add education</button>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="5">
+  <div class="section-title"><span class="num">5</span><div><h2>Work experience</h2><div class="sub">Include jobs, attachments, internships and relevant work.</div></div></div>
+  <div id="workList"></div>
+  <button type="button" class="btn ghost" onclick="addWork()">＋ Add experience</button>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="6">
+  <div class="section-title"><span class="num">6</span><div><h2>Skills</h2><div class="sub">Separate multiple items with commas.</div></div></div>
+  <div class="grid">
+    <div class="field"><label>Technical skills</label><textarea name="technicalSkills" placeholder="HTML, CSS, JavaScript, networking..."></textarea></div>
+    <div class="field"><label>Soft skills</label><textarea name="softSkills" placeholder="Communication, teamwork, problem solving..."></textarea></div>
+    <div class="field"><label>Software / tools</label><textarea name="tools" placeholder="Microsoft Office, Canva, VS Code..."></textarea></div>
+    <div class="field"><label>Languages</label><textarea name="languages" placeholder="English, Kiswahili..."></textarea></div>
+  </div>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="7">
+  <div class="section-title"><span class="num">7</span><div><h2>Certifications & training</h2><div class="sub">Add certificates, short courses and professional training.</div></div></div>
+  <div id="certList"></div>
+  <button type="button" class="btn ghost" onclick="addCert()">＋ Add certification</button>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="8">
+  <div class="section-title"><span class="num">8</span><div><h2>Projects</h2><div class="sub">Especially useful for students and fresh graduates.</div></div></div>
+  <div id="projectList"></div>
+  <button type="button" class="btn ghost" onclick="addProject()">＋ Add project</button>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="9">
+  <div class="section-title"><span class="num">9</span><div><h2>Additional information</h2><div class="sub">Add anything else that strengthens your application.</div></div></div>
+  <div class="grid">
+    <div class="field full"><label>Volunteer work</label><textarea name="volunteer" placeholder="Organization, role and what you accomplished..."></textarea></div>
+    <div class="field full"><label>Leadership positions</label><textarea name="leadership" placeholder="e.g. Class representative, club chairperson..."></textarea></div>
+    <div class="field full"><label>Internships / attachments</label><textarea name="internships" placeholder="Organization, role, dates and responsibilities..."></textarea></div>
+    <div class="field"><label>Awards / achievements</label><textarea name="awards" placeholder="Academic, sports, professional or other awards..."></textarea></div>
+    <div class="field"><label>Professional memberships</label><textarea name="memberships" placeholder="Professional associations or memberships..."></textarea></div>
+  </div>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()" style="visibility:var(--back-vis,visible)">← Back</button><div class="right"><button type="button" class="btn gold" onclick="nextStep()">Continue →</button></div></div>
+</section>
+
+<section class="card section" data-step="10">
+  <div class="section-title"><span class="num">10</span><div><h2>Review & submit</h2><div class="sub">Check your information before sending it to us.</div></div></div>
+  <div class="field"><label>Profile photo <small>(optional)</small></label><div class="file"><input id="profilePhoto" type="file" accept="image/jpeg,image/png,image/webp"><div id="photoPreviewWrap" style="display:none;margin-top:14px;text-align:center"><img id="photoPreview" alt="Profile photo preview" style="width:120px;height:120px;object-fit:cover;border-radius:50%;border:3px solid #ffd166;box-shadow:0 10px 30px rgba(0,0,0,.3)"><div class="hint" style="margin-top:8px">Photo preview</div></div></div><div class="hint">Use a clear, professional headshot. JPG, PNG or WebP. The photo is optional and will need to be sent separately in WhatsApp.</div></div>
+  <div class="field"><label>Existing CV / resume <small>(optional)</small></label><div class="file"><input id="cvFile" type="file" accept=".pdf,.doc,.docx"></div><div class="hint">Files aren't attached to the WhatsApp message automatically. If you have one, send it separately after opening WhatsApp.</div></div>
+  <div class="field"><label>Job advert file <small>(optional)</small></label><div class="file"><input id="jobFile" type="file" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"></div></div>
+  <div class="checkbox"><input id="consent" type="checkbox"><label for="consent">I confirm that the information I have provided is accurate and I authorize this information to be used to prepare my CV. I understand that submitting my details does not guarantee employment.</label></div>
+  <div style="margin-top:18px"><label>Submission preview</label><div id="preview" class="summary">Complete the required fields, then the preview will appear here.</div></div>
+  <div class="actions"><button type="button" class="btn ghost" onclick="prevStep()">← Back</button><div class="right"><button type="button" class="btn ghost" onclick="copySubmission()">Copy</button><button type="button" class="btn green" onclick="submitWhatsApp()">Send via WhatsApp →</button></div></div>
+</section>
+</form>
+
+<div id="success" class="card success">
+  <div class="success-icon">✓</div>
+  <h2>You're all set!</h2>
+  <p class="sub">Your CV details have been prepared for WhatsApp. If you selected files, send them separately in the WhatsApp chat.</p>
+  <button class="btn green" onclick="openWhatsApp()">Open WhatsApp again</button>
+  <button class="btn ghost" style="margin-top:10px" onclick="location.reload()">Submit another client</button>
+</div>
+</main>
+
+<footer class="footer container">Professional CV Service · WhatsApp: <strong>+254 795 415 864</strong><br>Built for job seekers, students & fresh graduates.</footer>
+<div id="toast" class="toast"></div>
+
+<script>
+const TOTAL=10; let step=1;
+const $=s=>document.querySelector(s);
+function NavButtons(){return ''}
+
+function addEducation(data={}){
+ const n=document.querySelectorAll('#educationList .repeat').length+1;
+ $('#educationList').insertAdjacentHTML('beforeend',`<div class="repeat">
+ <div class="repeat-head"><strong>Education ${n}</strong><button type="button" class="btn danger" onclick="this.closest('.repeat').remove();renumber('educationList','Education')">Remove</button></div>
+ <div class="grid">
+ <div class="field"><label>Institution</label><input data-k="institution" value="${esc(data.institution)}" placeholder="e.g. University of Nairobi"></div>
+ <div class="field"><label>Course / qualification</label><input data-k="qualification" value="${esc(data.qualification)}" placeholder="e.g. BSc Computer Science"></div>
+ <div class="field"><label>Start date</label><input data-k="start" type="month" value="${esc(data.start)}"></div>
+ <div class="field"><label>Completion date</label><input data-k="end" type="month" value="${esc(data.end)}"></div>
+ <div class="field full"><label>Relevant achievements</label><textarea data-k="achievements" placeholder="Grades, awards, leadership or notable achievements...">${esc(data.achievements)}</textarea></div>
+ </div></div>`);
+}
+function addWork(data={}){
+ const n=document.querySelectorAll('#workList .repeat').length+1;
+ $('#workList').insertAdjacentHTML('beforeend',`<div class="repeat">
+ <div class="repeat-head"><strong>Experience ${n}</strong><button type="button" class="btn danger" onclick="this.closest('.repeat').remove();renumber('workList','Experience')">Remove</button></div>
+ <div class="grid">
+ <div class="field"><label>Company / organization</label><input data-k="company" value="${esc(data.company)}" placeholder="e.g. ABC Ltd"></div>
+ <div class="field"><label>Job title</label><input data-k="title" value="${esc(data.title)}" placeholder="e.g. Intern / Sales Assistant"></div>
+ <div class="field"><label>Start date</label><input data-k="start" type="month" value="${esc(data.start)}"></div>
+ <div class="field"><label>End date / Current</label><input data-k="end" value="${esc(data.end)}" placeholder="e.g. Aug 2026 or Present"></div>
+ <div class="field full"><label>Responsibilities</label><textarea data-k="responsibilities" placeholder="What did you do?">${esc(data.responsibilities)}</textarea></div>
+ <div class="field full"><label>Achievements / results</label><textarea data-k="achievements" placeholder="What improved, increased, reduced or did you accomplish?">${esc(data.achievements)}</textarea></div>
+ </div></div>`);
+}
+function addCert(data={}){
+ const n=document.querySelectorAll('#certList .repeat').length+1;
+ $('#certList').insertAdjacentHTML('beforeend',`<div class="repeat">
+ <div class="repeat-head"><strong>Certification ${n}</strong><button type="button" class="btn danger" onclick="this.closest('.repeat').remove();renumber('certList','Certification')">Remove</button></div>
+ <div class="grid">
+ <div class="field"><label>Certificate / training name</label><input data-k="name" value="${esc(data.name)}" placeholder="e.g. Google IT Support"></div>
+ <div class="field"><label>Institution / provider</label><input data-k="provider" value="${esc(data.provider)}" placeholder="e.g. Alison"></div>
+ <div class="field"><label>Date obtained</label><input data-k="date" type="month" value="${esc(data.date)}"></div>
+ </div></div>`);
+}
+function addProject(data={}){
+ const n=document.querySelectorAll('#projectList .repeat').length+1;
+ $('#projectList').insertAdjacentHTML('beforeend',`<div class="repeat">
+ <div class="repeat-head"><strong>Project ${n}</strong><button type="button" class="btn danger" onclick="this.closest('.repeat').remove();renumber('projectList','Project')">Remove</button></div>
+ <div class="grid">
+ <div class="field"><label>Project name</label><input data-k="name" value="${esc(data.name)}" placeholder="e.g. Student Portfolio Website"></div>
+ <div class="field"><label>Technologies / tools</label><input data-k="tech" value="${esc(data.tech)}" placeholder="HTML, CSS, JavaScript..."></div>
+ <div class="field full"><label>What did you do?</label><textarea data-k="description" placeholder="Describe your contribution...">${esc(data.description)}</textarea></div>
+ <div class="field full"><label>Result</label><textarea data-k="result" placeholder="What was achieved?">${esc(data.result)}</textarea></div>
+ </div></div>`);
+}
+function renumber(id,label){document.querySelectorAll('#'+id+' .repeat').forEach((x,i)=>x.querySelector('.repeat-head strong').textContent=label+' '+(i+1));}
+function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+
+function collect(){
+ const fd=new FormData($('#cvForm')), o={};
+ for(const [k,v] of fd.entries()) if(typeof v==='string' && v.trim()) o[k]=v.trim();
+ o.education=[...document.querySelectorAll('#educationList .repeat')].map(r=>obj(r));
+ o.work=[...document.querySelectorAll('#workList .repeat')].map(r=>obj(r));
+ o.certifications=[...document.querySelectorAll('#certList .repeat')].map(r=>obj(r));
+ o.projects=[...document.querySelectorAll('#projectList .repeat')].map(r=>obj(r));
+ return o;
+}
+function obj(r){const o={};r.querySelectorAll('[data-k]').forEach(e=>{if(e.value.trim())o[e.dataset.k]=e.value.trim()});return o}
+function lines(o){
+ let s=`CV CLIENT INTAKE — ${o.fullName||''}\n================================\n\n`;
+ s+=`1. PERSONAL & CONTACT\nFull name: ${o.fullName||'-'}\nPhone: ${o.phone||'-'}\nEmail: ${o.email||'-'}\nLocation: ${o.location||'-'}\nLinkedIn: ${o.linkedin||'-'}\n\n`;
+ s+=`2. CAREER TARGET\nTarget job: ${o.targetTitle||'-'}\nIndustry/field: ${o.industry||'-'}\nJob advert: ${o.jobAdvert||'-'}\n\n`;
+ s+=`3. PROFESSIONAL SUMMARY\nCurrent status: ${o.status||'-'}\nYears of experience: ${o.years||'-'}\nCareer goal: ${o.careerGoal||'-'}\n\n`;
+ s+=`4. EDUCATION\n`; o.education.forEach((e,i)=>s+=`Education ${i+1}: ${e.institution||'-'} | ${e.qualification||'-'} | ${e.start||'-'} to ${e.end||'-'}\nAchievements: ${e.achievements||'-'}\n\n`);
+ s+=`5. WORK EXPERIENCE\n`; o.work.forEach((e,i)=>s+=`Experience ${i+1}: ${e.company||'-'} | ${e.title||'-'} | ${e.start||'-'} to ${e.end||'-'}\nResponsibilities: ${e.responsibilities||'-'}\nAchievements: ${e.achievements||'-'}\n\n`);
+ s+=`6. SKILLS\nTechnical: ${o.technicalSkills||'-'}\nSoft: ${o.softSkills||'-'}\nSoftware/tools: ${o.tools||'-'}\nLanguages: ${o.languages||'-'}\n\n`;
+ s+=`7. CERTIFICATIONS & TRAINING\n`; o.certifications.forEach((e,i)=>s+=`Certification ${i+1}: ${e.name||'-'} | ${e.provider||'-'} | ${e.date||'-'}\n`);
+ s+=`\n8. PROJECTS\n`; o.projects.forEach((e,i)=>s+=`Project ${i+1}: ${e.name||'-'}\nDescription: ${e.description||'-'}\nTools: ${e.tech||'-'}\nResult: ${e.result||'-'}\n\n`);
+ s+=`9. ADDITIONAL INFORMATION\nVolunteer: ${o.volunteer||'-'}\nLeadership: ${o.leadership||'-'}\nInternships: ${o.internships||'-'}\nAwards: ${o.awards||'-'}\nMemberships: ${o.memberships||'-'}\n\n`;
+ s+=`FILES\nProfile photo: ${$('#profilePhoto').files[0]?.name||'None'}\nExisting CV: ${$('#cvFile').files[0]?.name||'None'}\nJob advert file: ${$('#jobFile').files[0]?.name||'None'}\n\nConsent: Confirmed\nNote: Client understands submission does not guarantee employment.`;
+ return s;
+}
+function validateStep(){
+ const sec=document.querySelector(`.section[data-step="${step}"]`);
+ let ok=true;
+ sec.querySelectorAll('input[required],textarea[required],select[required]').forEach(e=>{
+   if(!e.value.trim()){e.style.borderColor='var(--danger)';ok=false}else e.style.borderColor='';
+ });
+ if(!ok){toast('Please complete the required fields marked with *');return false}
+ return true;
+}
+function update(){
+ document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',+s.dataset.step===step));
+ const pct=step/TOTAL*100;
+ $('#bar').style.width=pct+'%';$('#progressText').textContent=`Step ${step} of ${TOTAL}`;$('#progressPct').textContent=Math.round(pct)+'%';
+ window.scrollTo({top:0,behavior:'smooth'});
+ if(step===10) $('#preview').textContent=lines(collect());
+}
+function nextStep(){if(!validateStep())return;if(step<TOTAL){step++;update()}}
+function prevStep(){if(step>1){step--;update()}}
+function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2600)}
+async function copySubmission(){
+ if(step!==10){toast('Go to Review & submit first.');return}
+ const s=lines(collect());
+ try{await navigator.clipboard.writeText(s);toast('Submission copied to clipboard.')}catch{toast('Copy failed — select and copy the preview manually.')}
+}
+function waUrl(){return 'https://wa.me/254795415864?text='+encodeURIComponent(lines(collect()))}
+function openWhatsApp(){window.open(waUrl(),'_blank','noopener,noreferrer')}
+function submitWhatsApp(){
+ if(!$('#consent').checked){toast('Please confirm the consent checkbox before submitting.');return}
+ if(!validateAll())return;
+ const url=waUrl();
+ $('#success').classList.add('show');$('#cvForm').style.display='none';
+ window.open(url,'_blank','noopener,noreferrer');
+}
+function validateAll(){
+ for(let i=1;i<=3;i++){
+   const sec=document.querySelector(`.section[data-step="${i}"]`);
+   let ok=true;sec.querySelectorAll('input[required],textarea[required]').forEach(e=>{if(!e.value.trim())ok=false});
+   if(!ok){step=i;update();toast('Please complete the required fields before submitting.');return false}
+ }
+ return true;
+}
+$('#cvForm').addEventListener('input',()=>{if(step===10)$('#preview').textContent=lines(collect())});
+document.addEventListener('keydown',e=>{if(e.key==='Enter' && e.target.tagName==='INPUT' && step<TOTAL){/* allow normal form entry */}});
+document.getElementById('profilePhoto').addEventListener('change', function(){const file=this.files[0];const wrap=document.getElementById('photoPreviewWrap');const img=document.getElementById('photoPreview');if(!file){wrap.style.display='none';img.removeAttribute('src');return}const reader=new FileReader();reader.onload=e=>{img.src=e.target.result;wrap.style.display='block'};reader.readAsDataURL(file)});
+addEducation();
+update();
+</script>
+</body>
+</html>
